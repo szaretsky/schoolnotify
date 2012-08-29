@@ -4,9 +4,20 @@ use warnings;
 use Data::Dumper;
 use lib qw(/home/me/schoolnotify);
 use SchoolNotify::SmsApi;
+use SchoolNotify::Phones;
+use Getopt::Long;
 
-my $balance = SchoolNotify::SmsApi::GetBalance() ;
+my $debug = 0;
+my $phonelist = '/home/devel/schoolnotify/phones.txt';
 
-print $balance->{'result'}->{'balance_currency'}."\n";
+GetOptions( 'debug' => \$debug , 'phones=s' => \$phonelist );
 
-SchoolNotify::SmsApi::SendMessage();
+my $sender = new SchoolNotify::SmsApi({ 'debug' => $debug});
+my $phones = new SchoolNotify::Phones({ 'phonelist' => $phonelist });
+$phones->LoadPhones();
+$phones->SendForList($sender, 'У вас в субботу линейка! Родительский комитет');
+
+
+#my $balance = $sender->GetBalance();
+#print "Balance ".$balance."\n";
+#$sender->SendSMS('79161404047','У вас в субботу линейка!');
