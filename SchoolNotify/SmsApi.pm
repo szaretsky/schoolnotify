@@ -7,7 +7,6 @@ use Digest::MD5 qw(md5_hex);
 use LWP::UserAgent;
 use JSON;
 
-my $debug = 0;
 sub PUBLIC_KEY() { 'fadc62a97f583ffefa9cafcc2cc969f4' };
 sub PRIVATE_KEY() { 'd877aba4b1ff4a924c73515b4451cc4f' };
 sub SMSGATE_URL() { 'http://atompark.com/api/sms/3.0/' };
