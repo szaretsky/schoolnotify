@@ -3,6 +3,7 @@ package SchoolNotify::Phones;
 use strict;
 use warnings;
 use Carp;
+use Util::DelayedQueue;
 use SchoolNotify::SmsApi;
 
 sub new {
@@ -13,6 +14,7 @@ sub new {
 		$self->{$_} = $args->{$_} foreach keys %$args;
 	}
 	$self->{'phones'} = [];
+	$self->{'sentstorage'} = SchoolNotify::SentStorage->new();
     	bless($self, $class);
     	return $self;
 }
@@ -43,6 +45,7 @@ sub SendForList{
 	my( $self, $sender, $txt ) = @_;
 	foreach my $phone (@{$self->{'phones'}}){
 		my $rep = $sender->SendSMS( $phone, $txt );
+		$self->{'sentstorage'}->AddSentItem( $rep->[1] );	
 		print $phone."\tReport: ".$rep->[1]."\n";
 	}
 }

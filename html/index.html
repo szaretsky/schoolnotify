@@ -1,0 +1,46 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+	<title>Уведомления</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.1.1/jquery.mobile-1.1.1.min.js"></script>
+	<script type="text/javascript">
+		function updateContent(){
+		 	$.ajax({
+		     		url: '/cgi/status',
+		     		success: function(response) {
+					$("#status").text(response);
+		     		},
+		     		error: function(xhr) {
+					alert('Error!  Status = ' + xhr.status);
+		     		}
+		 	});
+		};
+		function initHandlers(){
+			setInterval( updateContent, 1000);
+			$("#getdata").click(function(){  return updateContent(); } );
+		};
+		$(window).load( initHandlers );
+	</script>
+		
+</head> 
+<body> 
+
+<div data-role="page">
+
+	<div data-role="header">
+		<h1>My Title</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">	
+		<p id="status">Hello world</p>
+	</div>
+	<a id="getdata" data-role="button">Get Actual</a>
+	<!-- /content -->
+
+</div><!-- /page -->
+
+</body>
+</html>

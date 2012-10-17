@@ -1,0 +1,7 @@
+#!/usr/bin/perl
+
+use Data::Dumper;
+
+warn Data::Dumper::Dumper(\%ENV);
+print "Content-type: text/plain\n\n";
+

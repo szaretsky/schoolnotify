@@ -15,7 +15,7 @@ GetOptions( 'debug' => \$debug , 'phones=s' => \$phonelist );
 my $sender = new SchoolNotify::SmsApi({ 'debug' => $debug});
 my $phones = new SchoolNotify::Phones({ 'phonelist' => $phonelist });
 $phones->LoadPhones();
-$phones->SendForList($sender, '3 сентября детей ждут в школе в 8:15. С собой нужен рюкзак, пенал и сменка. Родительский комитет 1Г.');
+$phones->SendForList($sender, 'Уважаемые родители! Сегодня в 18:00 в актовом зале встреча с директором. Родительский комитет 1Г.');
 
 
 my $balance = $sender->GetBalance();

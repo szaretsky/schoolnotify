@@ -6,6 +6,7 @@ use Carp;
 use Digest::MD5 qw(md5_hex);
 use LWP::UserAgent;
 use JSON;
+use Util::DelayedQueue;
 
 sub PUBLIC_KEY() { 'fadc62a97f583ffefa9cafcc2cc969f4' };
 sub PRIVATE_KEY() { 'd877aba4b1ff4a924c73515b4451cc4f' };
@@ -67,7 +68,26 @@ sub SendSMS {
 		return [0, join(" ", map($_."=".$result->{$_}, keys %$result))];
 	} else {
 		return [1, $result->{'result'}->{'id'}];
+		SchoolNotify::SentStorage->AddSentItem( $result->{'result'}->{'id'} );
 	}
 }
+
+sub CheckMessageStatus {
+	my ($self, $messageid) =@_;
+	my $result = $self->_sendMessage( 'sendCampaignInfo', { 'id' => $messageid });
+	return $result->{'result'}->{'status'};
+}
+
+
+sub SendTestSms {
+	my ($self, $phone, $msg) = @_;
+	my $result = $self->_sendMessage( 'sendSMS', {'sender' => 'GibddMO48o', 'text' => $msg, 'phone' => $phone, 'sms_lifetime' => 0});
+	if($result->{'error'}){
+		return [0, join(" ", map($_."=".$result->{$_}, keys %$result))];
+	} else {
+		return [1, $result->{'result'}->{'id'}];
+	}
+}
+
 
 1;

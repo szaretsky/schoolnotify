@@ -1,0 +1,8 @@
+#!/usr/bin/perl
+
+use DateTime;
+print "Content-type: text/plain\n\n";
+
+my $dt = DateTime->now();
+
+print $dt->ymd." ".$dt->hms;
