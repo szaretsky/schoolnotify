@@ -9,6 +9,7 @@ use SchoolNotify::Phones;
 use SchoolNotify::SentStorage;
 use Getopt::Long;
 
+
 my $ds = SchoolNotify::SentStorage->new(); 
 
 while(1){
